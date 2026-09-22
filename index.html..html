@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Overlap: fragrance finder and layering guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F2F7; --surface:#FFFFFF; --ink:#211A33; --muted:#665E76; --line:#DDD7E6;
+  --a:#7457D6; --b:#E19625; --circ-op:.42; --focus:#7457D6;
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Instrument Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#15101F; --surface:#201A2E; --ink:#EFEAF7; --muted:#A79EBA; --line:#372F4B;
+    --a:#A48CF5; --b:#F2B24C; --circ-op:.36; --focus:#B7A4FF;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15101F; --surface:#201A2E; --ink:#EFEAF7; --muted:#A79EBA; --line:#372F4B;
+  --a:#A48CF5; --b:#F2B24C; --circ-op:.36; --focus:#B7A4FF;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.015em;line-height:1.12;margin:0}
+h1{font-size:clamp(2rem,5.4vw,3.2rem);max-width:19ch;letter-spacing:-.025em}
+h2{font-size:1.45rem}
+h3{font-size:1.15rem}
+p{margin:0}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+h1:focus,h2:focus{outline:none}
+.wrap{max-width:920px;margin:0 auto;padding:20px 20px 64px}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;padding:6px 0 34px}
+.brand{display:flex;align-items:center;gap:10px;font:700 1.35rem var(--display);letter-spacing:-.01em}
+.tabs{display:flex;gap:4px}
+.tab{background:none;border:0;border-bottom:2px solid transparent;padding:8px 12px;font:500 .96rem var(--body);color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+
+.lede{max-width:56ch;color:var(--muted);font-size:1.06rem;margin:16px 0 30px}
+.sub{color:var(--muted);margin-top:6px;font-size:.96rem}
+
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+.prog{display:flex;gap:6px;margin-bottom:10px}
+.prog i{flex:1;height:4px;border-radius:2px;background:var(--line)}
+.prog i.on{background:var(--ink)}
+.stepno{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+.quiz h3{margin-top:26px;font-size:1.05rem}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin:14px 0 0}
+.chips.compact{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+.chip{display:flex;flex-direction:column;gap:2px;text-align:left;min-height:58px;padding:11px 14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;cursor:pointer;transition:background .15s,border-color .15s}
+.chip b{font-weight:600}
+.chip span{font-size:.85rem;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip[aria-pressed="true"] span{color:var(--bg);opacity:.78}
+.chip:disabled{opacity:.38;cursor:not-allowed}
+.chips.compact .chip{min-height:0;padding:9px 12px}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+
+.btn{font:600 1rem var(--body);background:var(--ink);color:var(--bg);border:1px solid var(--ink);border-radius:10px;padding:11px 20px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.mini{font:500 .88rem var(--body);background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer;text-align:left}
+.mini span{color:var(--muted);margin-left:6px}
+.link{background:none;border:0;padding:0;font:500 .95rem var(--body);color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;margin-top:4px}
+
+input[type="search"],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{resize:vertical;background:var(--surface)}
+.ownres{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;min-height:8px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);border-radius:8px;padding:5px 6px 5px 11px;font-size:.9rem}
+.tag button{background:none;border:0;color:var(--muted);font-size:1.05rem;line-height:1;cursor:pointer;padding:2px 6px}
+
+.summary{display:flex;gap:16px 24px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin:16px 0 40px}
+.summary p{max-width:54ch;color:var(--muted);font-size:1.03rem}
+.summary div{display:flex;gap:8px}
+.results h2{margin-top:6px}
+.picks{list-style:none;margin:10px 0 0;padding:0}
+.pick{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:10px 36px;padding:22px 0;border-top:1px solid var(--line)}
+.pick h3{font-size:1.3rem}
+.by{color:var(--muted);font-size:.95rem}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 8px}
+.meta span{border:1px solid var(--line);border-radius:6px;padding:1px 8px;font-size:.8rem;color:var(--muted)}
+.why{font-size:.97rem}
+.alt{font-size:.92rem;color:var(--muted);margin-top:6px}
+.alt b{color:var(--ink);font-weight:600}
+.pyr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;font-size:.92rem;align-content:start}
+.pyr dt{font-weight:600;font-size:.82rem;color:var(--muted);margin-bottom:2px}
+.pyr dd{margin:0}
+.layer{margin-top:52px}
+
+.combo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:8px 28px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0}
+.venn{width:100%;height:auto;display:block}
+.ca{fill:var(--a);fill-opacity:var(--circ-op);stroke:var(--a);stroke-width:1.5}
+.cb{fill:var(--b);fill-opacity:var(--circ-op);stroke:var(--b);stroke-width:1.5}
+.vt{font:500 12px var(--body);fill:var(--ink);text-anchor:middle}
+.vt.sm{font-size:10.5px}
+.vt.vi{font-style:italic;fill:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;font-size:.85rem;color:var(--muted);margin-top:4px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.dot.da{background:var(--a)}.dot.db{background:var(--b)}
+.combo-top{display:flex;gap:10px 14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.combo-top h3{max-width:22ch}
+.badge{font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.v-strong{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.v-good{border-color:var(--ink)}
+.v-care{color:var(--muted)}
+.v-clash{color:var(--muted);border-style:dashed}
+.combo-body>*+*{margin-top:10px}
+.steps{padding-left:20px;margin:12px 0 0}
+.steps li{margin:6px 0}
+.own{font-size:.9rem;color:var(--muted)}
+.warn{font-size:.92rem;color:var(--muted);border-left:3px solid var(--b);padding-left:10px}
+
+.selects{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
+.selects label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.95rem}
+.selects select{font-weight:400}
+.empty{color:var(--muted);margin:22px 0}
+#lab-out h2{margin-top:36px}
+.partners{list-style:none;margin:8px 0 0;padding:0}
+.partners li{display:flex;gap:10px 20px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--line)}
+.partners p{font-size:.93rem;color:var(--muted);margin-top:2px}
+.partners .pr{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+.ask{margin-top:52px;border-top:1px solid var(--line);padding-top:26px}
+.ask .sugs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.ask-row{display:flex;gap:10px;align-items:flex-start}
+.ask-btns{display:flex;flex-direction:column;gap:8px}
+.ask-out{white-space:pre-wrap;margin-top:16px;max-width:68ch}
+.foot{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted);max-width:70ch}
+
+@media (max-width:720px){
+  .pick,.combo{grid-template-columns:1fr}
+  .selects{grid-template-columns:1fr}
+  .quiz{padding:18px}
+  .ask-row{flex-direction:column}
+  .ask-btns{flex-direction:row}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><circle cx="12" cy="11" r="10" style="fill:var(--a);fill-opacity:.55"/><circle cx="22" cy="11" r="10" style="fill:var(--b);fill-opacity:.55"/></svg>
+      Overlap
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="tab-find" aria-selected="true" aria-controls="view-find" data-tab="find">Find scents</button>
+      <button class="tab" role="tab" id="tab-lab" aria-selected="false" aria-controls="view-lab" data-tab="lab">Layer lab</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="view-find" role="tabpanel" aria-labelledby="tab-find"></section>
+    <section id="view-lab" role="tabpanel" aria-labelledby="tab-lab" hidden>
+      <h1>Layer lab</h1>
+      <p class="lede">Choose two fragrances to see how they behave together, or choose one to see its best partners.</p>
+      <div class="selects">
+        <label>First fragrance<select id="sel-a"></select></label>
+        <label>Second fragrance<select id="sel-b"></select></label>
+      </div>
+      <div id="lab-out"></div>
+      <div id="lab-ask"></div>
+    </section>
+  </main>
+
+  <footer class="foot">A starter library of 65 fragrances. Notes for the Hawas line, Asad, 9PM, Club de Nuit Untold, Yara and Amber Oud Gold were checked against retailer and Parfumo listings, which sometimes disagree. The rest were typed from memory. Strength ratings and price bands are approximate. "Same direction as" reflects what reviewers say, not a promise that two scents smell alike. Try on skin before you buy.</footer>
+</div>
+
+<script>
+"use strict";
+
+/* ================= DATA ================= */
+// id, name, brand, price tier (1 <$50, 2 $50-100, 3 $100-200, 4 $200+), concentration,
+// strength 1-5, accords (first = dominant), top, heart, base, seasons (p u f w), occasions (e o d n s)
+const RAW=[
+["adg","Acqua di Giò","Giorgio Armani",3,"EDT",2,"aquatic citrus woody","bergamot, neroli, lemon","jasmine, peach, rose","musk, cedar, oakmoss, amber","pu","eo"],
+["bdc","Bleu de Chanel","Chanel",3,"EDP",3,"woody citrus aromatic","grapefruit, lemon, mint, pink pepper","ginger, nutmeg, jasmine","incense, cedar, sandalwood, labdanum","pufw","eodn"],
+["tdh","Terre d'Hermès","Hermès",3,"EDT",3,"woody citrus spicy","orange, grapefruit","pepper, geranium","vetiver, cedar, benzoin","pf","eod"],
+["lb","Light Blue","Dolce & Gabbana",2,"EDT",2,"citrus fruity woody","lemon, apple","jasmine, rose","cedar, amber, musk","pu","e"],
+["cw","Cool Water","Davidoff",1,"EDT",2,"aquatic aromatic musky","mint, lavender, coriander","jasmine, sandalwood, neroli","musk, amber, oakmoss","pu","e"],
+["jmlb","Lime Basil & Mandarin","Jo Malone London",3,"Cologne",2,"citrus green aromatic","lime, mandarin, basil","thyme, marjoram","amber, vetiver","pu","eo"],
+["av","Aventus","Creed",4,"EDP",4,"fruity smoky woody","pineapple, bergamot, apple, black currant","birch, jasmine, patchouli, rose","musk, oakmoss, ambergris, vanilla","puf","eos"],
+["sav","Sauvage","Dior",3,"EDT",4,"aromatic spicy amber","bergamot, pepper","lavender, pink pepper, vetiver","ambroxan, cedar, labdanum","pfw","edn"],
+["n5","N°5","Chanel",3,"EDP",3,"floral powdery musky","aldehydes, neroli, bergamot","jasmine, rose, iris","vanilla, sandalwood, musk","pfw","ods"],
+["cm","Coco Mademoiselle","Chanel",3,"EDP",3,"floral citrus woody","orange, bergamot, grapefruit","rose, jasmine","patchouli, vetiver, vanilla, musk","pfw","eod"],
+["gb","Bloom","Gucci",3,"EDP",3,"floral green","jasmine","tuberose, rangoon creeper","","pu","ed"],
+["dz","Daisy","Marc Jacobs",2,"EDT",2,"floral fruity musky","strawberry, violet leaf, grapefruit","violet, jasmine, gardenia","musk, vanilla, cedar","pu","e"],
+["gw","Gypsy Water","Byredo",4,"EDP",2,"woody aromatic amber","bergamot, lemon, juniper, pepper","incense, iris","amber, vanilla, sandalwood","pfw","eod"],
+["s33","Santal 33","Le Labo",4,"EDP",3,"woody powdery smoky","cardamom, violet","iris, leather","sandalwood, cedar, ambroxan","pfw","eod"],
+["phil","Philosykos","Diptyque",3,"EDT",2,"green woody fruity","fig leaf","fig, coconut","cedar","pu","eo"],
+["tam","Tam Dao","Diptyque",3,"EDT",2,"woody amber","cypress","rosewood, sandalwood","cedar, amber, musk","fw","eo"],
+["bo","Black Orchid","Tom Ford",4,"EDP",4,"floral sweet smoky","black currant, bergamot","orchid, gardenia, spice","patchouli, vanilla, incense","fw","ns"],
+["tv","Tobacco Vanille","Tom Ford",4,"EDP",4,"sweet smoky spicy","tobacco, spices","vanilla, cacao, tonka","dried fruit, woody notes","fw","ns"],
+["ow","Oud Wood","Tom Ford",4,"EDP",3,"woody smoky spicy","rosewood, cardamom, pepper","oud, sandalwood, vetiver","tonka, amber","fw","ds"],
+["ol","Ombré Leather","Tom Ford",4,"EDP",4,"smoky woody floral","cardamom","leather, jasmine","amber, moss, patchouli","fw","ns"],
+["lc","Lost Cherry","Tom Ford",4,"EDP",4,"sweet fruity floral","black cherry, bitter almond","rose, jasmine","tonka, sandalwood, cedar","fw","dn"],
+["br540","Baccarat Rouge 540","Maison Francis Kurkdjian",4,"EDP",5,"amber sweet woody","saffron, jasmine","amberwood, ambergris","cedar, fir resin","pfw","dns"],
+["bo2","Black Opium","Yves Saint Laurent",3,"EDP",4,"sweet floral amber","pink pepper, orange blossom, pear","coffee, jasmine, bitter almond","vanilla, patchouli, cedar","fw","dn"],
+["libre","Libre","Yves Saint Laurent",3,"EDP",3,"floral aromatic sweet","mandarin, lavender, black currant","orange blossom, jasmine","vanilla, tonka, musk, cedar","pfw","eod"],
+["y","Y","Yves Saint Laurent",3,"EDP",3,"aromatic woody citrus","apple, ginger, bergamot","sage, geranium, juniper","tonka, cedar, vetiver, incense","puf","eodn"],
+["lvb","La Vie Est Belle","Lancôme",3,"EDP",4,"sweet floral powdery","black currant, pear","iris, jasmine, orange blossom","praline, vanilla, patchouli, tonka","fw","edn"],
+["fb","Flowerbomb","Viktor & Rolf",3,"EDP",4,"floral sweet powdery","bergamot, tea","jasmine, orchid, freesia, rose","patchouli, musk","fw","dn"],
+["chl","Chloé","Chloé",3,"EDP",2,"floral powdery musky","peony, lychee, freesia","rose, magnolia","cedar, amber, musk","pu","eo"],
+["epf","English Pear & Freesia","Jo Malone London",3,"Cologne",2,"fruity floral","pear, melon","freesia, rose","amber, patchouli, musk","pu","eo"],
+["angel","Angel","Mugler",3,"EDP",5,"sweet amber fruity","bergamot, coconut, cotton candy","honey, red berries","patchouli, chocolate, vanilla, caramel","fw","n"],
+["candy","Candy","Prada",3,"EDP",3,"sweet powdery amber","caramel","musk","benzoin, vanilla","fw","ed"],
+["sh","Shalimar","Guerlain",3,"EDP",4,"amber sweet smoky","bergamot, lemon","jasmine, rose, iris","vanilla, tonka, incense","fw","ds"],
+["rbf","Replica By the Fireplace","Maison Margiela",3,"EDT",3,"smoky sweet woody","clove, pink pepper, orange blossom","chestnut, guaiac","vanilla, cashmeran, balsam","fw","ed"],
+["rjc","Replica Jazz Club","Maison Margiela",3,"EDT",3,"sweet smoky woody","pink pepper, lemon, neroli","rum, vetiver, clary sage","tobacco, vanilla, styrax","fw","dn"],
+["rls","Replica Lazy Sunday Morning","Maison Margiela",3,"EDT",2,"powdery musky floral","pear, aldehydes","iris, rose, orange blossom","musk, patchouli","pf","ed"],
+["rbw","Replica Beach Walk","Maison Margiela",3,"EDT",2,"musky citrus sweet","bergamot, lemon, pink pepper","coconut, ylang-ylang","musk, cedar, benzoin","pu","e"],
+["gg","Good Girl","Carolina Herrera",3,"EDP",4,"sweet floral amber","almond, coffee, bergamot","tuberose, jasmine, orange blossom","tonka, cacao, vanilla, sandalwood","fw","dn"],
+["1m","1 Million","Rabanne",2,"EDT",4,"sweet spicy amber","grapefruit, mint, blood orange","cinnamon, rose","leather, amber, patchouli","fw","n"],
+["inv","Invictus","Rabanne",2,"EDT",3,"aquatic citrus woody","grapefruit, mandarin","jasmine, bay leaf","guaiac, oakmoss, patchouli, ambergris","pu","en"],
+["lm","Le Male","Jean Paul Gaultier",2,"EDT",4,"aromatic sweet spicy","mint, lavender, cardamom, bergamot","orange blossom, cinnamon","vanilla, tonka, sandalwood, amber, cedar","fw","dn"],
+["m01","Molecule 01","Escentric Molecules",3,"EDT",2,"woody musky","","iso e super","","pufw","eod"],
+["nap","Not a Perfume","Juliette Has a Gun",2,"EDP",2,"musky amber","","","cetalox","pufw","eod"],
+["gy","You","Glossier",2,"EDP",2,"musky powdery amber","pink pepper","iris, ambrette","ambroxan, musk","pufw","eod"],
+["nr","For Her","Narciso Rodriguez",3,"EDT",3,"musky floral amber","bergamot, osmanthus","rose, orange blossom","musk, amber, vanilla, patchouli","pfw","eod"],
+["cheir","Cheirosa '62","Sol de Janeiro",1,"Body mist",2,"sweet musky","pistachio, salted caramel","jasmine","vanilla, musk","puf","ed"],
+["cloud","Cloud","Ariana Grande",1,"EDP",3,"sweet fruity musky","lavender, pear, bergamot","coconut, praline","vanilla, musk","pfw","ed"],
+["khamrah","Khamrah","Lattafa",1,"EDP",4,"sweet spicy amber","cinnamon, nutmeg, bergamot","dates, praline, tuberose","vanilla, tonka, amberwood, benzoin","fw","dn","as"],
+["cdni","Club de Nuit Intense Man","Armaf",1,"EDT",4,"fruity smoky woody","lemon, pineapple, bergamot, black currant","birch, rose, jasmine","musk, ambergris, patchouli, vanilla","puf","eon","av"],
+["col","Colonia","Acqua di Parma",3,"Cologne",2,"citrus aromatic woody","orange, lemon, bergamot","lavender, rosemary, verbena","sandalwood, vetiver, patchouli","pu","eo"],
+["bal","Bal d'Afrique","Byredo",4,"EDP",3,"citrus floral woody","bergamot, lemon","violet, jasmine","vetiver, musk, cedar, amber","pu","ed"],
+["ck1","CK One","Calvin Klein",1,"EDT",2,"citrus musky green","bergamot, pineapple, cardamom","jasmine, violet, rose","musk, sandalwood, cedar, amber","pu","e"],
+["as","Angels' Share","Kilian",4,"EDP",4,"sweet spicy woody","cognac, cinnamon","tonka, oak","praline, vanilla, sandalwood","fw","dns"],
+["lay","Layton","Parfums de Marly",4,"EDP",4,"sweet spicy aromatic","apple, lavender, bergamot, mandarin","geranium, violet, jasmine","vanilla, cardamom, sandalwood, pepper, patchouli","pfw","eodn"],
+["jns","Un Jardin sur le Nil","Hermès",3,"EDT",2,"green fruity aquatic","grapefruit, green mango","lotus, tomato leaf","sycamore, incense, musk","pu","eo"],
+["bomb","Bombshell","Victoria's Secret",1,"EDP",3,"fruity floral sweet","passionfruit, pineapple, grapefruit","peony, vanilla orchid, strawberry","musk, vanilla","pu","dn"],
+// Budget and Middle Eastern picks. Last column: what the community says it is close in direction to (a library id or plain text).
+["hawas","Hawas for Him","Rasasi",1,"EDP",4,"aquatic fruity amber","apple, bergamot, lemon, cinnamon","orange blossom, cardamom, plum","ambergris, musk, patchouli, driftwood","puf","eon",""],
+["hice","Hawas Ice","Rasasi",1,"EDP",3,"fruity aquatic citrus","frozen apple, bergamot, lemon, star anise","orange blossom, plum, cardamom","moss, driftwood, amber, musk","pu","eon",""],
+["hblack","Hawas Black","Rasasi",1,"EDP",4,"fruity woody citrus","pineapple, grapefruit, bergamot","cedar, patchouli, jasmine","oakmoss, amber, woody notes","pfw","dn",""],
+["helixir","Hawas Elixir","Rasasi",1,"EDP",4,"sweet aromatic amber","mint, bergamot, artemisia","lavender, dark chocolate, benzoin","vanilla, tonka, musk","fw","dn",""],
+["hher","Hawas for Her","Rasasi",1,"EDP",3,"fruity floral sweet","apple, grapefruit, pomegranate","jasmine, iris","patchouli, vetiver, praline","pfw","ed","lvb"],
+["asad","Asad","Lattafa",1,"EDP",4,"spicy sweet amber","black pepper, pineapple, tobacco","coffee, patchouli, iris","amber, vanilla, benzoin, labdanum","fw","dn","Dior Sauvage Elixir"],
+["af9","9PM","Afnan",1,"EDP",4,"sweet spicy amber","apple, bergamot, cinnamon, lavender","lily of the valley, orange blossom","amber, patchouli, tonka, vanilla","fw","n","Jean Paul Gaultier Ultra Male"],
+["cdnu","Club de Nuit Untold","Armaf",1,"EDP",4,"amber woody sweet","saffron, jasmine","amberwood, ambergris","fir resin, cedar","fw","dns","br540"],
+["yara","Yara","Lattafa",1,"EDP",3,"sweet fruity powdery","tangerine, heliotrope, orchid","tropical fruits, gourmand accord","vanilla, musk, sandalwood","puf","ed",""],
+["aog","Amber Oud Gold Edition","Al Haramain",1,"EDP",4,"sweet fruity amber","bergamot, green notes","melon, pineapple, amber, gourmand accord","vanilla, musk, woody notes","pfw","edn",""]
+];
+const sp=s=>s?s.split(",").map(x=>x.trim()).filter(Boolean):[];
+const LIB=RAW.map(r=>{
+  const f={id:r[0],name:r[1],brand:r[2],tier:r[3],conc:r[4],str:r[5],acc:r[6].split(" "),top:sp(r[7]),heart:sp(r[8]),base:sp(r[9]),seasons:r[10],occ:r[11],like:r[12]||""};
+  f.notes=[...new Set([...f.top,...f.heart,...f.base])];
+  return f;
+});
+const BY=Object.fromEntries(LIB.map(f=>[f.id,f]));
+const likeOf=f=>f.like?(BY[f.like]?BY[f.like].name:f.like):"";
+const cheaper=f=>LIB.filter(x=>x.like===f.id&&x.tier<f.tier);
+
+const FAM={
+  citrus:["Citrus","lemon, bergamot, grapefruit"],
+  aquatic:["Aquatic","sea air, clean and cool"],
+  green:["Green","leaves, fig, cut grass"],
+  aromatic:["Herbal","lavender, mint, sage"],
+  floral:["Floral","rose, jasmine, peony"],
+  fruity:["Fruity","pear, apple, berries"],
+  sweet:["Sweet","vanilla, caramel, praline"],
+  spicy:["Spicy","pepper, cinnamon, cardamom"],
+  woody:["Woody","cedar, sandalwood, vetiver"],
+  amber:["Amber","warm resins, ambroxan"],
+  musky:["Musky","clean skin, soft musk"],
+  smoky:["Smoky","incense, leather, tobacco"],
+  powdery:["Powdery","iris, violet, cosmetics"]
+};
+const OCC={any:"Anything",e:"Everyday",o:"Work",d:"Date night",n:"Night out",s:"Special occasion"};
+const OCCP={e:"everyday wear",o:"the office",d:"date nights",n:"nights out",s:"special occasions"};
+const SEA={any:"Year-round",p:"Spring",u:"Summer",f:"Fall",w:"Winter"};
+const BUD={1:["Under $50","Mists and budget picks"],2:["Up to $100",""],3:["Up to $200",""],4:["No limit","Niche and luxury included"]};
+const BUDP={1:"under $50",2:"up to $100",3:"up to $200",4:"at any price"};
+const PRES={soft:["Close to skin","Only people near you notice"],mid:["Noticeable","A pleasant trail"],loud:["Fills the room","Bold and long-lasting"]};
+const PRESP={soft:"that stay close to the skin",mid:"with a noticeable trail",loud:"that fill the room"};
+const TARGET={soft:2,mid:3,loud:4.5};
+const TIER={1:"Under $50",2:"$50–100",3:"$100–200",4:"Over $200"};
+
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const list=a=>a.length<=1?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ================= ENGINE ================= */
+function taste(f,p){
+  let s=0;const fams=[];
+  p.families.forEach(fam=>{
+    const i=f.acc.indexOf(fam);
+    if(i===0){s+=4;fams.push(fam);}
+    else if(i>0){s+=2.5;fams.push(fam);}
+  });
+  let seasonOk=false,occOk=false;
+  if(p.season!=="any"){ if(f.seasons.includes(p.season)){s+=2;seasonOk=true;} else s-=1.5; }
+  if(p.occasion!=="any"){ if(f.occ.includes(p.occasion)){s+=2;occOk=true;} else s-=0.5; }
+  s-=Math.abs(f.str-TARGET[p.presence])*0.8;
+  return {score:s,fams,seasonOk,occOk};
+}
+const eligible=(f,p)=>f.tier<=p.budget&&!p.owned.includes(f.id)&&!f.acc.some(a=>p.avoid.includes(a));
+function ranked(p){
+  return LIB.filter(f=>eligible(f,p)).map(f=>Object.assign({f},taste(f,p))).sort((x,y)=>y.score-x.score);
+}
+function topPicks(rk,n){
+  const out=[],count={};
+  const pool=rk.slice(0,25).map(x=>Object.assign({},x));
+  while(out.length<n&&pool.length){
+    pool.forEach(x=>{x.adj=x.score-1.5*(count[x.f.brand]||0);});
+    pool.sort((a,b)=>b.adj-a.adj);
+    const c=pool.shift();out.push(c);count[c.f.brand]=(count[c.f.brand]||0)+1;
+    for(let i=pool.length-1;i>=0;i--){const o=pool[i].f;if(o.like===c.f.id||c.f.like===o.id)pool.splice(i,1);}
+  }
+  return out;
+}
+
+const LIFT=new Set(["citrus","aquatic","green","aromatic","fruity"]);
+const DEPTH=new Set(["woody","amber","sweet","musky","smoky","spicy","powdery"]);
+const tone=f=>LIFT.has(f.acc[0])?"lift":DEPTH.has(f.acc[0])?"depth":"floral";
+
+function pair(a,b){
+  const shared=a.notes.filter(n=>b.notes.includes(n));
+  const sharedAcc=a.acc.filter(x=>b.acc.includes(x));
+  const tones=[tone(a),tone(b)].sort().join("+");
+  let s=Math.min(shared.length,2)*3+Math.min(sharedAcc.length,2),kind="same";
+  if(tones==="depth+lift"){s+=3;kind="contrast";}
+  else if(tones==="depth+floral"){s+=2;kind="floral-depth";}
+  else if(tones==="floral+lift"){s+=1;kind="floral-lift";}
+  else if(tones==="depth+depth"&&a.acc[0]!==b.acc[0]){s+=1;kind="depth";}
+  else if(tones==="lift+lift"){kind="lift";}
+  if(a.str>=4&&b.str>=4)s-=2;
+  const union=new Set([...a.acc,...b.acc]).size;
+  if(sharedAcc.length/union>=0.6&&kind!=="contrast")s-=1.5;
+  const has=(f,x)=>f.acc.includes(x);
+  const aquaSmoke=(has(a,"aquatic")&&has(b,"smoky"))||(has(a,"smoky")&&has(b,"aquatic"));
+  if(aquaSmoke)s-=2;
+  const twin=shared.length/Math.max(1,Math.min(a.notes.length,b.notes.length))>=0.5&&shared.length>=3;
+  if(twin)s-=6;
+  return {score:s,shared,sharedAcc,kind,aquaSmoke,twin};
+}
+const verdict=s=>s>=8?"Strong pairing":s>=5.5?"Good pairing":s>=3?"Works with care":"Likely to clash";
+const vcls=s=>s>=8?"v-strong":s>=5.5?"v-good":s>=3?"v-care":"v-clash";
+const verdictP=P=>P.twin?"Too similar":verdict(P.score);
+const vclsP=P=>P.twin?"v-clash":vcls(P.score);
+const an=w=>/^[aeiou]/i.test(w)?"an":"a";
+
+function plan(a,b){
+  let first=a,second=b;
+  if(b.str>a.str||(b.str===a.str&&tone(b)==="depth"&&tone(a)!=="depth")){first=b;second=a;}
+  const d=first.str-second.str;
+  let n1,n2;
+  if(d>=2){n1=1;n2=3;}
+  else if(d===1){n1=2;n2=3;}
+  else if(first.str>=4){n1=1;n2=1;}
+  else if(first.str<=2){n1=3;n2=3;}
+  else{n1=2;n2=2;}
+  return {first,second,n1,n2};
+}
+function cautions(a,b,P){
+  const c=[];
+  if(a.str>=4&&b.str>=4)c.push("Both are strong. Stick to the spray counts above or the blend gets loud.");
+  if(P.twin)c.push("These two are close cousins, so layering adds little. A partner with a different character will do more.");
+  if(P.aquaSmoke)c.push("Aquatic and smoky notes can clash. Test on a paper strip first.");
+  const light=x=>["EDT","Cologne","Body mist"].includes(x.conc);
+  const mist=[a,b].find(x=>x.conc==="Body mist");
+  if(mist)c.push(mist.name+" is a body mist and fades within a few hours, so refresh it midday.");
+  else if(light(a)!==light(b)){const l=light(a)?a:b;c.push(l.name+" is a lighter concentration ("+l.conc+") and will fade first. Reapply it midday.");}
+  return c;
+}
+function whyText(pl,P){
+  const {first:a,second:b}=pl;const out=[];
+  if(P.twin)return "They share most of their notes, so this mostly amplifies one scent instead of building a new one.";
+  if(P.shared.length)out.push("Both contain "+list(P.shared.slice(0,3))+". That shared thread bridges the two, so they read as one scent instead of two competing ones.");
+  const L=tone(a)==="lift"?a:b,D=L===a?b:a;
+  const F=tone(a)==="floral"?a:b,O=F===a?b:a;
+  switch(P.kind){
+    case "contrast":out.push(L.name+" brings "+an(L.acc[0])+" "+L.acc[0]+" lift while "+D.name+" supplies "+D.acc[0]+" depth underneath.");break;
+    case "floral-depth":out.push(F.name+" keeps the floral heart and "+O.name+" gives it a warmer, longer-lasting base.");break;
+    case "floral-lift":out.push(O.name+" freshens "+F.name+", so the floral feels brighter and less heavy.");break;
+    case "depth":out.push("Both are warm, but "+a.acc[0]+" and "+b.acc[0]+" pull in different directions, so the result has more layers than either alone.");break;
+    case "lift":out.push("Both are bright and airy, so the blend stays light. That suits heat and daytime.");break;
+    default:out.push("They sit in the same corner of the scent map, so the blend mostly deepens what each already does.");
+  }
+  return out.join(" ");
+}
+function reasonShort(P){
+  if(P.twin)return "Close cousins, so it adds little.";
+  const k={contrast:"A bright top over a warm base.","floral-depth":"Floral softened by a warm base.","floral-lift":"A fresher, greener floral.",depth:"Two warm scents leaning different ways.",lift:"Two light scents, so it stays airy.",same:"Very similar, so it deepens rather than changes."}[P.kind];
+  return (P.shared.length?"Shares "+list(P.shared.slice(0,3))+". ":"")+k;
+}
+
+function buildCombos(p,rk){
+  const picks=topPicks(rk,5);
+  const pickIds=new Set(picks.map(x=>x.f.id));
+  const own=p.owned.map(id=>BY[id]).filter(Boolean);
+  const all=[...new Set([...rk.slice(0,10).map(x=>x.f),...own])];
+  const cand=[];
+  for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
+    const a=all[i],b=all[j];
+    const ownedIn=p.owned.includes(a.id)||p.owned.includes(b.id);
+    if(!ownedIn&&!pickIds.has(a.id)&&!pickIds.has(b.id))continue;
+    const P=pair(a,b);
+    const t=(taste(a,p).score+taste(b,p).score)*0.12;
+    cand.push({a,b,P,ownedIn,total:P.score+t+(ownedIn?2:0)});
+  }
+  cand.sort((x,y)=>y.total-x.total);
+  const chosen=[],used={};
+  for(const limit of [1,2]){
+    for(const c of cand){
+      if(chosen.length>=3)break;
+      if(chosen.includes(c))continue;
+      if((used[c.a.id]||0)>=limit||(used[c.b.id]||0)>=limit)continue;
+      chosen.push(c);used[c.a.id]=(used[c.a.id]||0)+1;used[c.b.id]=(used[c.b.id]||0)+1;
+    }
+  }
+  return {picks,combos:chosen};
+}
+
+//__DOM__
+/* ================= STATE ================= */
+const KEY="overlap.profile.v1";
+let st={step:0,families:[],occasion:"any",season:"any",budget:4,presence:"mid",owned:[],avoid:[],done:false,q:""};
+try{
+  const s=JSON.parse(localStorage.getItem(KEY)||"null");
+  if(s&&Array.isArray(s.families)){
+    st.families=s.families.filter(x=>FAM[x]).slice(0,4);
+    if(OCC[s.occasion])st.occasion=s.occasion;
+    if(SEA[s.season])st.season=s.season;
+    if(BUD[s.budget])st.budget=+s.budget;
+    if(PRES[s.presence])st.presence=s.presence;
+    st.owned=(s.owned||[]).filter(x=>BY[x]);
+    st.avoid=(s.avoid||[]).filter(x=>FAM[x]&&!st.families.includes(x));
+  }
+}catch(e){}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify({families:st.families,occasion:st.occasion,season:st.season,budget:st.budget,presence:st.presence,owned:st.owned,avoid:st.avoid}));}catch(e){}
+}
+let cur={picks:[],combos:[]};
+let lab={a:"",b:""};
+let SAMPLE=null,ctl=null;
+
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+
+/* ================= VIEWS ================= */
+const chip=(action,v,label,hint,on,dis)=>`<button class="chip" aria-pressed="${on}" data-action="${action}" data-v="${v}"${dis?" disabled":""}><b>${esc(label)}</b>${hint?`<span>${esc(hint)}</span>`:""}</button>`;
+
+function ownMatches(){
+  const q=st.q.trim().toLowerCase();
+  if(!q)return null;
+  return LIB.filter(f=>!st.owned.includes(f.id)&&(f.name+" "+f.brand).toLowerCase().includes(q)).slice(0,6);
+}
+function ownResHTML(){
+  const m=ownMatches();
+  if(m===null)return "";
+  if(!m.length)return `<p class="sub">No match in the library.</p>`;
+  return m.map(f=>`<button class="mini" data-action="own-add" data-v="${f.id}">${esc(f.name)}<span>${esc(f.brand)}</span></button>`).join("");
+}
+function ownTagsHTML(){
+  return st.owned.map(id=>`<span class="tag">${esc(BY[id].name)}<button data-action="own-rm" data-v="${id}" aria-label="Remove ${esc(BY[id].name)}">×</button></span>`).join("");
+}
+
+function quizHTML(){
+  const s=st.step;
+  const prog=`<div class="prog" aria-hidden="true">${[0,1,2,3].map(i=>`<i class="${i<=s?"on":""}"></i>`).join("")}</div><p class="stepno">Question ${s+1} of 4</p>`;
+  let body="",ok=true;
+  if(s===0){
+    ok=st.families.length>0;
+    body=`<h2 tabindex="-1">Which scent families do you like?</h2><p class="sub">Pick up to four.</p>
+    <div class="chips">${Object.entries(FAM).map(([k,[l,h]])=>chip("fam",k,l,h,st.families.includes(k),!st.families.includes(k)&&st.families.length>=4)).join("")}</div>`;
+  }else if(s===1){
+    body=`<h2 tabindex="-1">When will you wear it?</h2>
+    <div class="chips compact">${Object.entries(OCC).map(([k,l])=>chip("occ",k,l,"",st.occasion===k,false)).join("")}</div>
+    <h3>Which season?</h3>
+    <div class="chips compact">${Object.entries(SEA).map(([k,l])=>chip("sea",k,l,"",st.season===k,false)).join("")}</div>`;
+  }else if(s===2){
+    body=`<h2 tabindex="-1">Budget and presence</h2>
+    <h3>What will you spend on a bottle?</h3>
+    <div class="chips">${Object.entries(BUD).map(([k,[l,h]])=>chip("bud",k,l,h,st.budget==k,false)).join("")}</div>
+    <h3>How noticeable should it be?</h3>
+    <div class="chips">${Object.entries(PRES).map(([k,[l,h]])=>chip("pres",k,l,h,st.presence===k,false)).join("")}</div>`;
+  }else{
+    body=`<h2 tabindex="-1">Anything else we should know?</h2><p class="sub">Both parts are optional.</p>
+    <h3>Fragrances you already own</h3>
+    <p class="sub">Layering pairs will be built around them.</p>
+    <div style="margin-top:12px"><input id="ownq" type="search" value="${esc(st.q)}" placeholder="Search by name, like Sauvage" autocomplete="off" aria-label="Search the library for fragrances you own"></div>
+    <div id="ownres" class="ownres">${ownResHTML()}</div>
+    <div id="owntags" class="tags">${ownTagsHTML()}</div>
+    <h3>Scent families you dislike</h3>
+    <div class="chips compact">${Object.entries(FAM).map(([k,[l]])=>chip("avoid",k,l,"",st.avoid.includes(k),st.families.includes(k))).join("")}</div>`;
+  }
+  const nav=`<div class="nav">${s>0?`<button class="btn ghost" data-action="back">Back</button>`:"<span></span>"}${s<3?`<button class="btn" data-action="next"${ok?"":" disabled"}>Next</button>`:`<button class="btn" data-action="submit">Show my picks</button>`}</div>`;
+  return `<h1>Find a fragrance, then find what to wear it with.</h1>
+  <p class="lede">Answer four short questions for five picks and three layering pairs. Add bottles you already own and the pairs will use them.</p>
+  <div class="quiz">${prog}${body}${nav}</div>`;
+}
+
+function pyr(f){
+  const c=(l,a)=>`<div><dt>${l}</dt><dd>${a.length?esc(a.join(", ")):"–"}</dd></div>`;
+  return `<dl class="pyr">${c("Top",f.top)}${c("Heart",f.heart)}${c("Base",f.base)}</dl>`;
+}
+function pickHTML(x){
+  const f=x.f,bits=[];
+  if(x.fams.length)bits.push("Matches your "+list(x.fams)+" picks.");
+  if(x.seasonOk)bits.push("Suits "+SEA[st.season].toLowerCase()+".");
+  if(x.occOk)bits.push("Works for "+OCCP[st.occasion]+".");
+  bits.push(f.str<=2?"Sits close to the skin.":f.str===3?"Leaves a moderate trail.":"Projects strongly.");
+  const alt=[];
+  if(f.like)alt.push(`Same direction as <b>${esc(likeOf(f))}</b>, though not identical.`);
+  const ch=cheaper(f);
+  if(ch.length)alt.push(`Budget alternative: <b>${esc(list(ch.map(x=>x.name)))}</b> (${TIER[ch[0].tier]}).`);
+  return `<li class="pick"><div><h3>${esc(f.name)}</h3><p class="by">${esc(f.brand)}</p>
+  <div class="meta"><span>${esc(f.conc)}</span><span>${TIER[f.tier]}</span></div>
+  <p class="why">${esc(bits.join(" "))}</p>${alt.map(a=>`<p class="alt">${a}</p>`).join("")}</div>${pyr(f)}</li>`;
+}
+
+function venn(pl,P){
+  const {first:A,second:B,n1,n2}=pl;
+  const rA=70+n1*3,rB=70+n2*3,d=80,cy=100,cxA=210-d/2,cxB=210+d/2;
+  const l=cxA-rA,os=cxB-rB,oe=cxA+rA,r=cxB+rB;
+  const lines=(arr,x,cls)=>arr.map((t,i)=>`<text x="${x.toFixed(1)}" y="${(cy+(i-(arr.length-1)/2)*18+4.5).toFixed(1)}" class="${cls}">${esc(t)}</text>`).join("");
+  const short=(f,ex)=>{
+    const seq=[],m=Math.max(f.top.length,f.heart.length,f.base.length);
+    for(let i=0;i<m;i++)[f.top,f.heart,f.base].forEach(a=>{if(a[i])seq.push(a[i]);});
+    return seq.filter(n=>!ex.includes(n)&&n.length<=13).slice(0,3);
+  };
+  const oa=short(A,P.shared),ob=short(B,P.shared);
+  let mid,mcls="vt";
+  if(P.shared.length){
+    const s=[...P.shared].sort((x,y)=>x.length-y.length).slice(0,3);
+    mid=s;if(s.some(n=>n.length>11))mcls="vt sm";
+  }else if(P.sharedAcc.length){mid=P.sharedAcc.slice(0,2);mcls="vt vi";}
+  else{mid=["no shared","notes"];mcls="vt vi";}
+  const label="Overlap of "+A.name+" and "+B.name+(P.shared.length?". Shared notes: "+P.shared.join(", ")+".":". No shared notes.");
+  return `<svg class="venn" viewBox="0 0 420 200" role="img" aria-label="${esc(label)}"><circle class="ca" cx="${cxA}" cy="${cy}" r="${rA}"/><circle class="cb" cx="${cxB}" cy="${cy}" r="${rB}"/>${lines(oa,(l+os)/2,"vt")}${lines(mid,(os+oe)/2,mcls)}${lines(ob,(oe+r)/2,"vt")}</svg>`;
+}
+function comboHTML(a,b,P,opts){
+  opts=opts||{};
+  const pl=plan(a,b),cs=cautions(a,b,P);
+  const sp=n=>n+" spray"+(n>1?"s":"");
+  const ownNames=(opts.owned||[]).map(f=>f.name);
+  return `<article class="combo">
+  <div>${venn(pl,P)}<p class="legend"><span><i class="dot da"></i>${esc(pl.first.name)}</span><span><i class="dot db"></i>${esc(pl.second.name)}</span></p></div>
+  <div class="combo-body">
+    <div class="combo-top"><h3>${esc(pl.first.name)} + ${esc(pl.second.name)}</h3><span class="badge ${vclsP(P)}">${verdictP(P)}</span></div>
+    ${ownNames.length?`<p class="own">Uses ${esc(list(ownNames))} from your collection.</p>`:""}
+    <ol class="steps"><li>Spray <b>${esc(pl.first.name)}</b>, ${sp(pl.n1)}, on your chest or the back of your neck.</li><li>Wait about a minute, then spray <b>${esc(pl.second.name)}</b>, ${sp(pl.n2)}, on your wrists and the sides of your neck.</li></ol>
+    <p>${esc(whyText(pl,P))}</p>
+    ${cs.map(c=>`<p class="warn">${esc(c)}</p>`).join("")}
+    ${opts.labBtn?`<button class="link" data-action="lab" data-a="${a.id}" data-b="${b.id}">Open in Layer lab</button>`:""}
+  </div></article>`;
+}
+
+function askHTML(kind,sugs){
+  return `<section class="ask" data-ctx="${kind}" hidden>
+  <h2>Ask the perfumer</h2>
+  <p class="sub">Claude answers using only the fragrance library on this page.</p>
+  <div class="sugs">${sugs.map(s=>`<button class="mini" data-ask-sug="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+  <div class="ask-row"><textarea rows="2" maxlength="400" aria-label="Your question" placeholder="Something close to Baccarat Rouge 540, but under $100"></textarea>
+  <div class="ask-btns"><button class="btn" data-ask-run>Ask</button><button class="btn ghost" data-ask-stop hidden>Stop</button></div></div>
+  <div class="ask-out" aria-live="polite"></div></section>`;
+}
+
+function profileBits(){
+  const when=[];
+  if(st.season!=="any")when.push(SEA[st.season].toLowerCase());
+  if(st.occasion!=="any")when.push(OCCP[st.occasion]);
+  return [list(st.families)+" scents",when.length?"for "+list(when):"",BUDP[st.budget],PRESP[st.presence]].filter(Boolean);
+}
+function resultsHTML(){
+  const rk=ranked(st);
+  const head=`<h1>Your picks and pairings</h1>
+  <div class="summary"><p>${esc(cap(profileBits().join(", "))+".")}</p><div><button class="btn ghost" data-action="edit">Edit answers</button><button class="btn ghost" data-action="reset">Start over</button></div></div>`;
+  if(!rk.length){
+    cur={picks:[],combos:[]};
+    return head+`<p class="empty">Nothing in the library fits all of those filters. Loosen the budget or remove a dislike, then try again.</p>`;
+  }
+  const {picks,combos}=buildCombos(st,rk);
+  cur={picks,combos};
+  const few=picks.length<5?`<p class="sub">Only ${picks.length} fragrance${picks.length===1?"":"s"} fit your filters.</p>`:"";
+  return `<div class="results">${head}
+  <h2>${picks.length} to try</h2>${few}
+  <ol class="picks" style="list-style:none">${picks.map(pickHTML).join("")}</ol>
+  <div class="layer"><h2>Layer them</h2>
+  <p class="sub">${st.owned.length?"Built from your picks, close matches and the bottles you own. ":"Built from your picks and close matches. "}Circle size shows how many sprays each one gets. The overlap holds what they share.</p>
+  ${combos.length?combos.map(c=>comboHTML(c.a,c.b,c.P,{labBtn:true,owned:[c.a,c.b].filter(f=>st.owned.includes(f.id))})).join(""):`<p class="empty">Not enough matches to build pairs. Loosen your filters.</p>`}
+  </div>
+  ${askHTML("find",["A cheaper alternative to my top pick","Which of these is best for hot weather?","What should I sample first?"])}
+  </div>`;
+}
+
+function render(focus){
+  const v=$("#view-find");
+  v.innerHTML=st.done?resultsHTML():quizHTML();
+  syncAsk();
+  if(focus){const h=st.done?$("h1",v):$(".quiz h2",v);if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true});}window.scrollTo(0,0);}
+}
+
+/* ================= EVENTS: find ================= */
+const toggle=(arr,v,max)=>{const i=arr.indexOf(v);if(i>=0)arr.splice(i,1);else if(!max||arr.length<max)arr.push(v);};
+$("#view-find").addEventListener("click",e=>{
+  const t=e.target.closest("[data-action]");if(!t)return;
+  const a=t.dataset.action,v=t.dataset.v;
+  switch(a){
+    case "fam":toggle(st.families,v,4);st.avoid=st.avoid.filter(x=>!st.families.includes(x));render();break;
+    case "occ":st.occasion=v;render();break;
+    case "sea":st.season=v;render();break;
+    case "bud":st.budget=+v;render();break;
+    case "pres":st.presence=v;render();break;
+    case "avoid":toggle(st.avoid,v);render();break;
+    case "own-add":if(!st.owned.includes(v))st.owned.push(v);st.q="";render();{const i=$("#ownq");if(i)i.focus();}break;
+    case "own-rm":st.owned=st.owned.filter(x=>x!==v);render();break;
+    case "next":st.step=Math.min(3,st.step+1);render(true);break;
+    case "back":st.step=Math.max(0,st.step-1);render(true);break;
+    case "submit":st.done=true;save();render(true);break;
+    case "edit":st.done=false;st.step=0;render(true);break;
+    case "reset":st={step:0,families:[],occasion:"any",season:"any",budget:4,presence:"mid",owned:[],avoid:[],done:false,q:""};try{localStorage.removeItem(KEY);}catch(x){}render(true);break;
+    case "lab":openLab(t.dataset.a,t.dataset.b);break;
+  }
+});
+$("#view-find").addEventListener("input",e=>{
+  if(e.target.id==="ownq"){st.q=e.target.value;$("#ownres").innerHTML=ownResHTML();}
+});
+
+/* ================= LAB ================= */
+function fillSelects(){
+  const brands=[...new Set(LIB.map(f=>f.brand))].sort((a,b)=>a.localeCompare(b));
+  const opts='<option value="">Choose a fragrance</option>'+brands.map(b=>`<optgroup label="${esc(b)}">${LIB.filter(f=>f.brand===b).sort((x,y)=>x.name.localeCompare(y.name)).map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join("")}</optgroup>`).join("");
+  $("#sel-a").innerHTML=opts;$("#sel-b").innerHTML=opts;
+}
+function renderLab(){
+  const out=$("#lab-out"),A=BY[lab.a],B=BY[lab.b];
+  if(!A){out.innerHTML=`<p class="empty">Choose a first fragrance to see its verdict and best partners.</p>`;return;}
+  let h="";
+  if(B&&B.id===A.id)h+=`<p class="empty">Choose two different fragrances.</p>`;
+  else if(B)h+=comboHTML(A,B,pair(A,B));
+  const partners=LIB.filter(f=>f.id!==A.id&&(!B||f.id!==B.id)).map(f=>({f,P:pair(A,f)})).sort((x,y)=>y.P.score-x.P.score).slice(0,5);
+  h+=`<h2>Best partners for ${esc(A.name)}</h2><ul class="partners">${partners.map(x=>`<li><div><b>${esc(x.f.name)}</b> <span class="by">${esc(x.f.brand)}</span><p>${esc(reasonShort(x.P))}</p></div><div class="pr"><span class="badge ${vclsP(x.P)}">${verdictP(x.P)}</span><button class="mini" data-action="try" data-b="${x.f.id}">Try this pair</button></div></li>`).join("")}</ul>`;
+  out.innerHTML=h;
+}
+function openLab(a,b){
+  lab.a=a||"";lab.b=b||"";
+  $("#sel-a").value=lab.a;$("#sel-b").value=lab.b;
+  showTab("lab");renderLab();
+}
+$("#sel-a").addEventListener("change",e=>{lab.a=e.target.value;renderLab();});
+$("#sel-b").addEventListener("change",e=>{lab.b=e.target.value;renderLab();});
+$("#view-lab").addEventListener("click",e=>{
+  const t=e.target.closest('[data-action="try"]');
+  if(t){lab.b=t.dataset.b;$("#sel-b").value=lab.b;renderLab();$("#lab-out").scrollIntoView({block:"start"});}
+});
+
+function showTab(t){
+  ["find","lab"].forEach(k=>{$("#view-"+k).hidden=k!==t;$("#tab-"+k).setAttribute("aria-selected",String(k===t));});
+  window.scrollTo(0,0);
+}
+$$(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+
+/* ================= ASK THE PERFUMER ================= */
+const LIBTEXT=LIB.map(f=>`${f.name} by ${f.brand} | ${f.acc.join("/")} | ${f.conc} | strength ${f.str}/5 | ${TIER[f.tier]} | top: ${f.top.join(", ")||"-"}; heart: ${f.heart.join(", ")||"-"}; base: ${f.base.join(", ")||"-"}${f.like?" | community says it is in the same direction as "+likeOf(f):""}`).join("\n");
+const RULES=`You are the in-house perfumer for a fragrance finder called Overlap. Recommend ONLY fragrances listed in LIBRARY, using their names exactly as written. Ground every claim in the notes and accords given; never invent notes. If nothing in the library fits, say so and name the closest fit. Keep the answer under 170 words, in plain text with no markdown and no bullet symbols, in short paragraphs. When you suggest layering, say which goes on first, how many sprays of each, where to apply, and which shared or contrasting notes make it work. Where the library says a fragrance is in the same direction as a pricier one, you may mention it, but say it is similar in spirit and not identical, and that performance varies.`;
+function contextText(kind){
+  if(kind==="lab"){
+    const A=BY[lab.a],B=BY[lab.b];
+    if(!A)return "SELECTED\nNothing selected yet.";
+    if(!B||B.id===A.id)return "SELECTED\nFirst fragrance: "+A.name+" by "+A.brand+".";
+    const P=pair(A,B),pl=plan(A,B);
+    return `SELECTED FOR LAYERING\n${pl.first.name} first (${pl.n1} sprays), then ${pl.second.name} (${pl.n2} sprays). Rule-based verdict: ${verdictP(P)}. Shared notes: ${P.shared.join(", ")||"none"}.`;
+  }
+  const p=st;
+  return `PROFILE\nLikes: ${list(p.families)||"not stated"}. Occasion: ${p.occasion==="any"?"any":OCCP[p.occasion]}. Season: ${p.season==="any"?"any":SEA[p.season].toLowerCase()}. Budget: ${BUDP[p.budget]}. Wants: ${PRESP[p.presence]}. Owns: ${p.owned.map(id=>BY[id].name).join(", ")||"nothing listed"}. Dislikes: ${list(p.avoid)||"nothing listed"}.\n\nCURRENT PICKS\n${cur.picks.map(x=>x.f.name).join(", ")||"none"}\n\nCURRENT LAYERING PAIRS\n${cur.combos.map(c=>c.a.name+" + "+c.b.name).join("; ")||"none"}`;
+}
+function errCopy(code){
+  switch(code){
+    case "rate_limited":return "You've hit a usage limit. Try again in a little while.";
+    case "session_expired":return "Your session expired. Sign in to Claude again, then retry.";
+    case "refused":return "Claude couldn't answer that one. Try rephrasing it.";
+    case "empty_completion":return "No answer came back. Try a more specific question.";
+    default:return "That didn't go through. Try again.";
+  }
+}
+function syncAsk(){$$(".ask").forEach(el=>{el.hidden=!SAMPLE;});}
+async function runAsk(panel,q){
+  q=q.trim();if(!q||!SAMPLE)return;
+  const out=$(".ask-out",panel),run=$("[data-ask-run]",panel),stop=$("[data-ask-stop]",panel);
+  ctl=new AbortController();
+  run.disabled=true;stop.hidden=false;out.textContent="Thinking...";
+  const prompt=`${RULES}\n\n${contextText(panel.dataset.ctx)}\n\nLIBRARY (notes are approximate)\n${LIBTEXT}\n\nQUESTION\n${q.slice(0,400)}`;
+  try{
+    const res=await SAMPLE(prompt,{signal:ctl.signal,modelTier:"quick",cache:false,onText:({text})=>{out.textContent=text;}});
+    out.textContent=res.text+(res.truncated?"\n\nThe answer was cut short. Ask for less at a time.":"");
+  }catch(e){
+    const code=e&&e.code;
+    if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(code)){SAMPLE=null;syncAsk();return;}
+    if(code==="cancelled")out.textContent=(e.text||"");
+    else out.textContent=(e&&e.text?e.text+"\n\n":"")+errCopy(code);
+  }finally{run.disabled=false;stop.hidden=true;ctl=null;}
+}
+document.addEventListener("click",e=>{
+  const panel=e.target.closest(".ask");if(!panel)return;
+  const ta=$("textarea",panel);
+  if(e.target.closest("[data-ask-sug]")){ta.value=e.target.closest("[data-ask-sug]").dataset.askSug;runAsk(panel,ta.value);}
+  else if(e.target.closest("[data-ask-run]"))runAsk(panel,ta.value);
+  else if(e.target.closest("[data-ask-stop]")&&ctl)ctl.abort();
+});
+
+/* ================= INIT ================= */
+fillSelects();
+$("#lab-ask").innerHTML=askHTML("lab",["Is this good for daytime?","How do I make this last longer?","Suggest a third scent to add"]);
+render();renderLab();syncAsk();
+(async()=>{
+  try{if(window.claude&&typeof window.claude.use==="function")SAMPLE=await window.claude.use("sample");}catch(e){SAMPLE=null;}
+  syncAsk();
+})();
+</script>
+</body>
+</html>
